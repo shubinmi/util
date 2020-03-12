@@ -31,7 +31,8 @@ func TestMerge(t *testing.T) {
 		},
 	}
 	var e error
-	for _, tt := range tests {
+	for _, test := range tests {
+		tt := test
 		t.Run(tt.name, func(t *testing.T) {
 			err := Merge(tt.args.ers...)
 			e = Merge(e, err)

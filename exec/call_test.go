@@ -2,10 +2,11 @@ package exec
 
 import (
 	"errors"
-	"github.com/shubinmi/util/errs"
 	"strings"
 	"sync/atomic"
 	"testing"
+
+	"github.com/shubinmi/util/errs"
 )
 
 func TestAllNotNilArg(t *testing.T) {
@@ -14,8 +15,6 @@ func TestAllNotNilArg(t *testing.T) {
 		ps []interface{}
 	}
 	var n int32
-	var e error
-
 	tests := []struct {
 		name    string
 		args    args
@@ -31,7 +30,7 @@ func TestAllNotNilArg(t *testing.T) {
 					atomic.AddInt32(&n, 1)
 					return nil
 				},
-				ps: []interface{}{nil, &n, &n, nil, e, errors.New("")},
+				ps: []interface{}{nil, &n, &n, nil, nil, errors.New("")},
 			},
 			wantErr: false,
 		},
@@ -49,7 +48,9 @@ func TestAllNotNilArg(t *testing.T) {
 			wantErr: true,
 		},
 	}
-	for _, tt := range tests {
+	var e error
+	for _, test := range tests {
+		tt := test
 		t.Run(tt.name, func(t *testing.T) {
 			err := AllNotNilArg(tt.args.f, tt.args.ps...)
 			e = errs.Merge(e, err)
@@ -121,7 +122,8 @@ func TestAnySuccess(t *testing.T) {
 			wantErr: true,
 		},
 	}
-	for _, tt := range tests {
+	for _, test := range tests {
+		tt := test
 		t.Run(tt.name, func(t *testing.T) {
 			if err := AnySuccess(tt.args.fs...); (err != nil) != tt.wantErr {
 				t.Errorf("AnySuccess() error = %v, wantErr %v", err, tt.wantErr)
@@ -185,7 +187,8 @@ func TestUntilError(t *testing.T) {
 		},
 	}
 	var e error
-	for _, tt := range tests {
+	for _, test := range tests {
+		tt := test
 		t.Run(tt.name, func(t *testing.T) {
 			err := UntilError(tt.args.fs...)
 			e = errs.Merge(e, err)
@@ -250,7 +253,8 @@ func TestUntilSuccess(t *testing.T) {
 			},
 		},
 	}
-	for _, tt := range tests {
+	for _, test := range tests {
+		tt := test
 		t.Run(tt.name, func(t *testing.T) {
 			UntilSuccess(tt.args.fs...)
 		})

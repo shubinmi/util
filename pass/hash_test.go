@@ -1,9 +1,10 @@
 package pass
 
 import (
-	"golang.org/x/crypto/bcrypt"
 	"strings"
 	"testing"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 func TestHashVerify(t *testing.T) {
@@ -15,7 +16,8 @@ func TestHashVerify(t *testing.T) {
 		"match": {pass: "pass123", errHas: ""},
 		"miss":  {pass: "#asdas", suffix: "weq", errHas: bcrypt.ErrMismatchedHashAndPassword.Error()},
 	}
-	for name, test := range tests {
+	for name, tt := range tests {
+		test := tt
 		t.Run(name, func(t *testing.T) {
 			hash, err := Hash(test.pass)
 			if err != nil {

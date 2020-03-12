@@ -1,10 +1,11 @@
 package errs
 
 import (
-	"github.com/pkg/errors"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/pkg/errors"
 )
 
 type Code byte

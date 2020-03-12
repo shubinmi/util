@@ -1,9 +1,10 @@
 package exec
 
 import (
-	"github.com/shubinmi/util/errs"
 	"reflect"
 	"sync"
+
+	"github.com/shubinmi/util/errs"
 )
 
 type o func(interface{}) error
@@ -85,5 +86,5 @@ func AnySuccess(fs ...func() error) (err error) {
 	wg.Wait()
 	close(errors)
 	wg2.Wait()
-	return
+	return err
 }
