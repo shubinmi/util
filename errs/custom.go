@@ -38,7 +38,7 @@ func (e StateErr) Error() string {
 }
 
 func InState(err error, state uint8) bool {
-	e, ok := err.(StateErr)
+	e, ok := err.(*StateErr)
 	if !ok {
 		return false
 	}
