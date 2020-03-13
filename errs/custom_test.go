@@ -27,7 +27,8 @@ func TestWithState(t *testing.T) {
 			},
 		},
 	}
-	for _, tt := range tests {
+	for _, test := range tests {
+		tt := test
 		t.Run(tt.name, func(t *testing.T) {
 			got := WithState(tt.args.state, tt.args.msg)
 			if !reflect.DeepEqual(got, tt.want) {
