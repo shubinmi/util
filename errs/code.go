@@ -46,11 +46,11 @@ func ToCode(str string) Code {
 }
 
 func WithCode(e error, code Code) error {
-	return errors.Wrapf(e, "[ecode:%v]", code)
+	return errors.Wrapf(e, "[ecode:%d]", code)
 }
 
 func ExecCode(e error) Code {
-	re := regexp.MustCompile(`\[ecode:.*]`)
+	re := regexp.MustCompile(`\[ecode:\d]`)
 	eCode := re.FindString(e.Error())
 	if eCode == "" {
 		return Unknown
@@ -61,7 +61,7 @@ func ExecCode(e error) Code {
 }
 
 func CutCode(e error) error {
-	re := regexp.MustCompile(`\[ecode:.*]`)
+	re := regexp.MustCompile(`\[ecode:\d]: `)
 	return errors.New(re.ReplaceAllString(e.Error(), ""))
 }
 
