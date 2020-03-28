@@ -7,7 +7,7 @@ import (
 
 func TestWithState(t *testing.T) {
 	type args struct {
-		state uint8
+		state interface{}
 		msg   string
 	}
 	tests := []struct {

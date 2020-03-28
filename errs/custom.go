@@ -1,6 +1,8 @@
 package errs
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type NothingToDo struct{}
 
@@ -25,11 +27,11 @@ func IsNotFound(err error) bool {
 }
 
 type StateErr struct {
-	s   uint8
+	s   interface{}
 	msg string
 }
 
-func WithState(state uint8, msg string) *StateErr {
+func WithState(state interface{}, msg string) *StateErr {
 	return &StateErr{s: state, msg: msg}
 }
 
@@ -37,7 +39,7 @@ func (e StateErr) Error() string {
 	return fmt.Sprintf("msg: %s [[state: %d]]", e.msg, e.s)
 }
 
-func InState(err error, state uint8) bool {
+func InState(err error, state interface{}) bool {
 	e, ok := err.(*StateErr)
 	if !ok {
 		return false
