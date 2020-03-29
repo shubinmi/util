@@ -38,3 +38,23 @@ func TestControl(t *testing.T) {
 		t.Error("wrong WaitOnMax logic when should be done")
 	}
 }
+
+func TestControl_WaitAll(t *testing.T) {
+	cc := NewControl(50)
+	var s int64
+	for i := 0; i < 1000; i++ {
+		cc.Add(1)
+		go func() {
+			atomic.AddInt64(&s, 1)
+			cc.Done()
+		}()
+		cc.WaitOnMax()
+		if cc.currentNum > 50 {
+			t.Error("concurrent goroutines more then limit")
+		}
+	}
+	cc.WaitAll()
+	if s != 1000 {
+		t.Errorf("resutl should be 100 bu got %d", s)
+	}
+}
